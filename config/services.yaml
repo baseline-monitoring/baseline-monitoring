@@ -20,5 +20,10 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    _instanceof:
+        App\Service\Parser\ParserInterface:
+            tags: ['app.baseline_file_parser']
+    
+    App\Service\BaselineParser:
+        arguments:
+            $baselineFileParser: !tagged app.baseline_file_parser
