@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23cbfe76-d0ec-4bd1-b04d-29fe04585fda" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Command/RunCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Service/Parser/PsalmParser.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/unit/Service/Parser/PHPStanParserTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/unit/Service/Parser/PsalmParserTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/unit/_data/phpstan-api-baseline-short.neon" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/unit/_data/psalm-baseline-short.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/phpunit.xml.dist" beforeDir="false" afterPath="$PROJECT_DIR$/phpunit.xml.dist" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -204,7 +207,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "com.jetbrains.php.lang.actions.generation.PhpGenerateFieldAccessorHandlerBase$MyMemberChooser.fluent.setters.last.selected": "true",
-    "last_opened_file_path": "/Users/dario.tilgner/Projects/github/baseline-monitoring/src/Service/Parser",
+    "last_opened_file_path": "/Users/dario.tilgner/Projects/github/baseline-monitoring/tests/unit/_data",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "trusted.hosts",
     "vue.rearranger.settings.migration": "true"
@@ -212,13 +215,14 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/tests/unit/_data" />
+      <recent name="$PROJECT_DIR$/tests/unit/Parser" />
       <recent name="$PROJECT_DIR$/src/Service/Parser" />
       <recent name="$PROJECT_DIR$/src/Exception" />
       <recent name="$PROJECT_DIR$/src/Service" />
-      <recent name="$PROJECT_DIR$/src/Service/Util" />
-      <recent name="$PROJECT_DIR$/src/Service/Analyze" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/tests/unit/Service" />
       <recent name="$PROJECT_DIR$/tests/unit/_data" />
     </key>
   </component>
