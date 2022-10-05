@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23cbfe76-d0ec-4bd1-b04d-29fe04585fda" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Dto/BaselineEntry.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Dto/BaselineEntryCollection.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Dto/BaselineStatisticResult.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Dto/BaselineStatisticResultCollection.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Service/Analyze/EntryAnalyzer.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Service/BaselineParser.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Service/Parser/PHPStanParser.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Service/Parser/ParserInterface.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Service/Util/DateUtil.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Command/RunCommand.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/Parser/PsalmParser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -211,7 +204,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "com.jetbrains.php.lang.actions.generation.PhpGenerateFieldAccessorHandlerBase$MyMemberChooser.fluent.setters.last.selected": "true",
-    "last_opened_file_path": "/Users/dario.tilgner/Projects/github/baseline-monitoring/src/Service",
+    "last_opened_file_path": "/Users/dario.tilgner/Projects/github/baseline-monitoring/src/Service/Parser",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "trusted.hosts",
     "vue.rearranger.settings.migration": "true"
@@ -219,11 +212,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Service/Parser" />
+      <recent name="$PROJECT_DIR$/src/Exception" />
       <recent name="$PROJECT_DIR$/src/Service" />
       <recent name="$PROJECT_DIR$/src/Service/Util" />
       <recent name="$PROJECT_DIR$/src/Service/Analyze" />
-      <recent name="$PROJECT_DIR$/src/Service/Parser" />
-      <recent name="$PROJECT_DIR$/src/Dto" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/tests/unit/_data" />
