@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.20.0@f82a70e7edfc6cf2705e9374c8a0b6a974a779ed">
+    <file src="config/container.php">
+        <RedundantCastGivenDocblockType occurrences="1">
+            <code>(array) require __DIR__ . '/application.config.php'</code>
+        </RedundantCastGivenDocblockType>
+    </file>
+    <file src="module/AccountManager/src/SomeSpace/Response/State/ActiveResponse.php">
+        <LessSpecificReturnStatement occurrences="1">
+            <code>new self(...$transactions)</code>
+        </LessSpecificReturnStatement>
+        <MoreSpecificReturnType occurrences="1">
+            <code>static</code>
+        </MoreSpecificReturnType>
+    </file>
+    <file src="module/Api/src/Api/Business/Converter/Paramunittype.php">
+        <InvalidScalarArgument occurrences="1">
+            <code>$throttledSlownessUnit</code>
+        </InvalidScalarArgument>
+        <MissingParamType occurrences="1">
+            <code>$value</code>
+        </MissingParamType>
+        <MixedArgument occurrences="2">
+            <code>$throttledSlownessUnit</code>
+            <code>$value</code>
+        </MixedArgument>
+        <MixedAssignment occurrences="1">
+            <code>$throttledSlownessUnit</code>
+        </MixedAssignment>
+        <PossiblyInvalidOperand occurrences="1">
+            <code>$throttledSlownessValue</code>
+        </PossiblyInvalidOperand>
+        <PossiblyNullArrayAccess occurrences="2">
+            <code>$throttledSlownessUnit</code>
+            <code>$throttledSlownessValue</code>
+        </PossiblyNullArrayAccess>
+        <PossiblyNullOperand occurrences="1">
+            <code>$throttledSlownessValue</code>
+        </PossiblyNullOperand>
+    </file>
+</files>
