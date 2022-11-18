@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+
+    <h1>{{ 'baseline_monitoring.baseline.admin.baseline_configuration.index.title'|trans }}</h1>
+
+    <p>{{ 'baseline_monitoring.baseline.admin.baseline_configuration.index.add_hint'|trans }}: <a href="{{ path('admin_baseline_configuration_add') }}">{{ 'baseline_monitoring.baseline.admin.baseline_configuration.index.add'|trans }}</a></p>
+
+    {% if configurations is empty %}
+        <h2>{{ 'baseline_monitoring.baseline.admin.baseline_configuration.index.baselines.no_baseline_configured'|trans }} <a href="{{ path('admin_baseline_configuration_add') }}">{{ 'baseline_monitoring.baseline.admin.baseline_configuration.index.add'|trans }}</a></h2>
+    {% else %}
+        <table class="table table-hover">
+            <thead>
+                <th>{{ 'baseline_monitoring.baseline.admin.baseline_configuration.index.baselines.name'|trans }}</th>
+                <th>{{ 'baseline_monitoring.baseline.admin.baseline_configuration.index.baselines.repository_url'|trans }}</th>
+                <th>{{ 'baseline_monitoring.baseline.admin.baseline_configuration.index.baselines.configuration_file_path'|trans }}</th>
+                <th>{{ 'baseline_monitoring.baseline.admin.baseline_configuration.index.baselines.baseline_file_path'|trans }}</th>
+                <th>{{ 'baseline_monitoring.baseline.admin.baseline_configuration.index.baselines.branch'|trans }}</th>
+                <th>{{ 'baseline_monitoring.baseline.admin.baseline_configuration.index.baselines.created_at'|trans }}</th>
+                <th>{{ 'baseline_monitoring.baseline.admin.baseline_configuration.index.baselines.action'|trans }}</th>
+            </thead>
+            <tbody>
+                {% for configuration in configurations %}
+                    <tr>
+                        <td>{{ configuration.name }}</td>
+                        <td>{{ configuration.repositoryUrl }}</td>
+                        <td>{{ configuration.pathToConfiguration }}</td>
+                        <td>{{ configuration.pathToBaseline }}</td>
+                        <td>{{ configuration.mainBranch }}</td>
+                        <td>{{ configuration.createdAt|date('Y-m-d H:i:s') }}</td>
+                        <td>
+                            <a href="{{ path('admin_baseline_configuration_edit', {id: configuration.id}) }}">{{ 'baseline_monitoring.baseline.admin.baseline_configuration.index.baselines.edit'|trans }}</a>
+                            <a href="{{ path('admin_baseline_configuration_delete', {id: configuration.id}) }}">{{ 'baseline_monitoring.baseline.admin.baseline_configuration.index.baselines.delete'|trans }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif%}
+{% endblock%}

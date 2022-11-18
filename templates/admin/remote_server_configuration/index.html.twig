@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+
+    <h1>{{ 'baseline_monitoring.baseline.admin.remote_server_configuration.index.title'|trans }}</h1>
+
+    <p>{{ 'baseline_monitoring.baseline.admin.remote_server_configuration.index.add_hint'|trans }}: <a href="{{ path('admin_remote_server_configuration_add') }}">{{ 'baseline_monitoring.baseline.admin.remote_server_configuration.index.add'|trans }}</a></p>
+
+    {% if configurations is empty %}
+        <h2>{{ 'baseline_monitoring.baseline.admin.remote_server_configuration.index.configurations.no_remote_server_configured'|trans }} <a href="{{ path('admin_remote_server_configuration_add') }}">{{ 'baseline_monitoring.baseline.admin.remote_server_configuration.index.add'|trans }}</a></h2>
+    {% else %}
+        <table class="table table-hover">
+            <thead>
+                <th>{{ 'baseline_monitoring.baseline.admin.remote_server_configuration.index.configurations.name'|trans }}</th>
+                <th>{{ 'baseline_monitoring.baseline.admin.remote_server_configuration.index.configurations.host'|trans }}</th>
+                <th>{{ 'baseline_monitoring.baseline.admin.remote_server_configuration.index.configurations.created_at'|trans }}</th>
+                <th>{{ 'baseline_monitoring.baseline.admin.remote_server_configuration.index.configurations.action'|trans }}</th>
+            </thead>
+            <tbody>
+                {% for configuration in configurations %}
+                    <tr>
+                        <td>{{ configuration.name }}</td>
+                        <td>{{ configuration.host }}</td>
+                        <td>{{ configuration.createdAt|date('Y-m-d H:i:s') }}</td>
+                        <td>
+                            <a href="{{ path('admin_remote_server_configuration_edit', {id: configuration.id}) }}">{{ 'baseline_monitoring.baseline.admin.remote_server_configuration.index.configurations.edit'|trans }}</a>
+                            <a href="{{ path('admin_remote_server_configuration_delete', {id: configuration.id}) }}">{{ 'baseline_monitoring.baseline.admin.remote_server_configuration.index.configurations.delete'|trans }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif%}
+{% endblock%}

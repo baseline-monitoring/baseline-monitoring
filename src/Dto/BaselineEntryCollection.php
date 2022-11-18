@@ -15,7 +15,7 @@ final class BaselineEntryCollection
      * @param BaselineEntry[] $baselineEntries
      */
     public function __construct(
-        public string $fileName,
+        private readonly string $fileName,
         array $baselineEntries = []
     ) {
         $this->setBaselineEntries($baselineEntries);

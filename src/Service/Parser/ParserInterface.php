@@ -10,5 +10,7 @@ interface ParserInterface
 {
     public function parse(string $fileName): BaselineEntryCollection;
 
+    public function getVersion(string $fileName): ?string;
+
     public function supports(string $fileName): bool;
 }

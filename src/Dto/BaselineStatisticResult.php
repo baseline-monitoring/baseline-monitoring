@@ -7,9 +7,10 @@ namespace App\Dto;
 final class BaselineStatisticResult
 {
     public function __construct(
-        private string $fileName,
-        private int $uniqueErrors,
-        private int $commutativeErrors
+        private readonly string $fileName,
+        private readonly int $uniqueErrors,
+        private readonly int $commutativeErrors,
+        private readonly ?string $version = null
     ) {
     }
 
@@ -26,5 +27,10 @@ final class BaselineStatisticResult
     public function getCommutativeErrors(): int
     {
         return $this->commutativeErrors;
+    }
+
+    public function getVersion(): ?string
+    {
+        return $this->version;
     }
 }

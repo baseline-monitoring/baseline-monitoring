@@ -27,3 +27,7 @@ services:
     App\Service\BaselineParser:
         arguments:
             $baselineFileParser: !tagged app.baseline_file_parser
+            
+    App\Service\GitService:
+        arguments:
+            $projectCheckoutDirectory: '%env(resolve:PROJECT_CHECKOUT_DIRECTORY)%'

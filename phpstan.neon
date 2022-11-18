@@ -3,6 +3,7 @@ parameters:
     paths:
         - ./src
     excludePaths:
+        - ./src/Command/TestCommand.php
         - ./src/Migrations
         - ./src/Entity
 

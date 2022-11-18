@@ -30,7 +30,7 @@ class PsalmParserTest extends TestCase
 
     public function testParse(): void
     {
-        $shortBaseFileName = __DIR__.'/../../_data/psalm-baseline-short.xml';
+        $shortBaseFileName = __DIR__ . '/../../_data/psalm-baseline-short.xml';
 
         $this->filesystem->exists($shortBaseFileName)
             ->shouldBeCalledOnce()

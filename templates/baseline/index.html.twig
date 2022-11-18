@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ 'baseline_monitoring.baseline.index.title'|trans }}</h1>
+
+    {% if baselines is empty %}
+        <h2>{{ 'baseline_monitoring.baseline.index.baselines.no_baseline_configured'|trans }}</h2>
+    {% else %}
+        <table class="table table-hover">
+            <thead>
+                <th>{{ 'baseline_monitoring.baseline.index.baselines.name'|trans }}</th>
+                <th>{{ 'baseline_monitoring.baseline.index.baselines.repository_url'|trans }}</th>
+                <th>{{ 'baseline_monitoring.baseline.index.baselines.configuration_file_path'|trans }}</th>
+                <th>{{ 'baseline_monitoring.baseline.index.baselines.baseline_file_path'|trans }}</th>
+                <th>{{ 'baseline_monitoring.baseline.index.baselines.branch'|trans }}</th>
+                <th>{{ 'baseline_monitoring.baseline.index.baselines.created_at'|trans }}</th>
+                <th>{{ 'baseline_monitoring.baseline.index.baselines.action'|trans }}</th>
+            </thead>
+            <tbody>
+            {% for baseline in baselines %}
+                <tr>
+                    <td>{{ baseline.name }}</td>
+                    <td>{{ baseline.repositoryUrl }}</td>
+                    <td>{{ baseline.pathToConfiguration }}</td>
+                    <td>{{ baseline.pathToBaseline }}</td>
+                    <td>{{ baseline.mainBranch }}</td>
+                    <td>{{ baseline.createdAt|date('Y-m-d H:i:s') }}</td>
+                    <td>
+                        <a href="{{ path('baseline_chart', {id: baseline.id}) }}">{{ 'baseline_monitoring.baseline.index.baselines.show'|trans }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif%}
+{% endblock %}

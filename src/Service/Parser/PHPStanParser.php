@@ -16,14 +16,37 @@ use Symfony\Component\Filesystem\Filesystem;
 class PHPStanParser implements ParserInterface
 {
     public function __construct(
-        private Filesystem $filesystem
+        private readonly Filesystem $filesystem
     ) {
+    }
+
+    /**
+     * @throws ParsingException
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
+    public function getVersion(string $fileName): ?string
+    {
+        $parsedFileContent = $this->getNeonFileContent($fileName);
+
+        $level = $parsedFileContent['parameters']['level'] ?? null;
+
+        if ($level !== null) {
+            $level = (string) $level;
+        }
+
+        return $level;
     }
 
     public function parse(string $fileName): BaselineEntryCollection
     {
         $baselineEntryCollection = new BaselineEntryCollection($fileName);
-        $ignoreErrors = $this->getNeonFileContent($fileName);
+        $parsedFileContent = $this->getNeonFileContent($fileName);
+
+        $ignoreErrors = $parsedFileContent['parameters']['ignoreErrors'] ?? null;
+        if (!is_array($ignoreErrors)) {
+            throw new BaselineFileContentException('Expected array elements "parameters", "ignoreErrors" not found in file "' . $fileName . '"');
+        }
 
         foreach ($ignoreErrors as $ignoreError) {
             $message = $ignoreError['message'];
@@ -52,11 +75,11 @@ class PHPStanParser implements ParserInterface
 
         $extension = (string) pathinfo($fileName, PATHINFO_EXTENSION);
 
-        return 'neon' === mb_strtolower($extension);
+        return mb_strtolower($extension) === 'neon';
     }
 
     /**
-     * @return array<int, array{message: string, count: int, path: string}>
+     * @return array{parameters: array{level?: int|string|null, ignoreErrors?: array{array{message: string, count: int, path: string}}}}
      *
      * @throws BaselineFileContentException
      * @throws FileNotFoundException
@@ -67,24 +90,20 @@ class PHPStanParser implements ParserInterface
     private function getNeonFileContent(string $fileName): array
     {
         if (!$this->filesystem->exists($fileName)) {
-            throw new FileNotFoundException('Given file "'.$fileName.'" does not exist');
+            throw new FileNotFoundException('Given file "' . $fileName . '" does not exist');
         }
 
         try {
             $parsedFileContent = Neon::decodeFile($fileName);
         } catch (NeonException $e) {
-            throw new ParsingException('File "'.$fileName.'" could not get parsed by library', 1649789763, $e);
+            throw new ParsingException('File "' . $fileName . '" could not get parsed by library', 1649789763, $e);
         }
 
         if (!is_array($parsedFileContent)) {
-            throw new BaselineFileContentException('File "'.$fileName.'" is not valid');
+            throw new BaselineFileContentException('File "' . $fileName . '" is not valid');
         }
 
-        $ignoreErrors = $parsedFileContent['parameters']['ignoreErrors'] ?? null;
-        if (!is_array($ignoreErrors)) {
-            throw new BaselineFileContentException('Expected array elements "parameters", "ignoreErrors" not found in file "'.$fileName.'"');
-        }
-
-        return $ignoreErrors;
+        /* @phpstan-ignore-next-line */
+        return $parsedFileContent;
     }
 }
