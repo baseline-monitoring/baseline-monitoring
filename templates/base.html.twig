@@ -2,18 +2,77 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        <title>{% block title %}{{ 'baseline_monitoring.layout.title'|trans }}{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>🚀️</text></svg>">
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
+             {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
         {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+            <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="{{ path('index') }}">{{ 'baseline_monitoring.layout.title'|trans }}</a>
+            <div class="navbar-nav flex-row">
+                {% if is_granted('ROLE_USER') %}
+                    <div class="nav-item flex-column px-3">
+                        <a href="{{ path('profile_index') }}" class="nav-link">Profile</a>
+                    </div>
+                {% endif %}
+                <div class="nav-item flex-column px-3">
+                    {% if is_granted('ROLE_USER') %}
+                        <a class="nav-link" href="{{ path('logout') }}">{{ 'baseline_monitoring.layout.logout.title'|trans }}</a>
+                    {% else %}
+                        <a class="nav-link px-3" href="{{ path('login') }}">{{ 'baseline_monitoring.layout.login.title'|trans }}</a>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+
+        <div class="container-fluid">
+            <div class="row">
+                <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                    <div class="position-sticky pt-3">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link {% if app.request.get('_route') in ['index', 'baseline_chart'] %}active{% endif %}" aria-current="page" href="{{ path('index') }}">
+                                    {{ 'baseline_monitoring.navigation.baselines'|trans }}
+                                </a>
+                            </li>
+                        </ul>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                                <span>{{ 'baseline_monitoring.layout.admin_area.title'|trans }}</span>
+                            </h6>
+                            <ul class="nav flex-column mb-2">
+                                <li class="nav-item">
+                                    <a class="nav-link {% if app.request.get('_route') in ['admin_remote_server_configuration_index', 'admin_remote_server_configuration_add', 'admin_remote_server_configuration_edit'] %}active{% endif %}" href="{{ path('admin_remote_server_configuration_index') }}">
+                                        {{ 'baseline_monitoring.navigation.remote_server_configuration'|trans }}
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {% if app.request.get('_route') in ['admin_baseline_configuration_index', 'admin_baseline_configuration_add', 'admin_baseline_configuration_edit'] %}active{% endif %}" href="{{ path('admin_baseline_configuration_index') }}">
+                                        {{ 'baseline_monitoring.navigation.baseline_configuration'|trans }}
+                                    </a>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    </div>
+                </nav>
+
+                <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pt-4">
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            {% include 'flashmessage.html.twig' with {'label': label, 'message': message} %}
+                        {% endfor %}
+                    {% endfor %}
+
+                    {% block body %}{% endblock %}
+                </main>
+            </div>
+        </div>
+
     </body>
 </html>

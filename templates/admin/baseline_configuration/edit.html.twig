@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% macro collection_item(form) %}
+    <div data-form-collection-target="field">
+        {{ form_widget(form) }}
+        <button type="button" class="btn btn-danger"
+                data-action="form-collection#removeItem">
+            Remove
+        </button>
+    </div>
+{% endmacro %}
+
+{% import _self as formMacros %}
+
+{% block body %}
+    {{ parent() }}
+
+    {{ form_start(form) }}
+
+    {{ form_row(form.remoteServer) }}
+    {{ form_row(form.repositoryUrl) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.pathToConfiguration) }}
+    {{ form_row(form.pathToBaseline) }}
+    {{ form_row(form.mainBranch) }}
+
+    <h3>Goals</h3>
+
+    <div data-controller="form-collection"
+         data-form-collection-max-items-value="10"
+         data-form-collection-prototype-value="{{ formMacros.collection_item(form.baselineConfigurationGoals.vars.prototype)|json_encode }}">
+        <div data-form-collection-target="fields">
+            {% do form.baselineConfigurationGoals.setRendered %}
+            {% for field in form.baselineConfigurationGoals %}
+                {{ formMacros.collection_item(field) }}
+            {% endfor %}
+        </div>
+        <button type="button"
+                data-action="form-collection#addItem"
+                data-form-collection-target="addButton" class="btn btn-primary mt-3">
+            Add
+        </button>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{{ 'baseline_monitoring.layout.title'|trans }}{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>🚀️</text></svg>">
+        {% block stylesheets %}
+             {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+             {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+        <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+            <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="{{ path('index') }}">↩︎ {{ 'baseline_monitoring.layout.profile_exit'|trans }}</a>
+            <div class="navbar-nav">
+                <div class="nav-item px-3">
+                    {% if is_granted('ROLE_USER') %}
+                        <a class="nav-link" href="{{ path('logout') }}">{{ 'baseline_monitoring.layout.logout.title'|trans }}</a>
+                    {% else %}
+                        <a class="nav-link px-3" href="{{ path('login') }}">{{ 'baseline_monitoring.layout.login.title'|trans }}</a>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+
+        <div class="container-fluid">
+            <div class="row">
+                <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                    <div class="position-sticky pt-3">
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                                <span>{{ 'baseline_monitoring.layout.profile.title'|trans }}</span>
+                            </h6>
+                            <ul class="nav flex-column mb-2">
+                                <li class="nav-item">
+                                    <a class="nav-link {% if app.request.get('_route') in ['profile_index', 'profile_change_password_index'] %}active{% endif %}" href="{{ path('profile_change_password_index') }}">
+                                        {{ 'baseline_monitoring.navigation.change_password'|trans }}
+                                    </a>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    </div>
+                </nav>
+
+                <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pt-4">
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            {% include 'flashmessage.html.twig' with {'label': label, 'message': message} %}
+                        {% endfor %}
+                    {% endfor %}
+
+                    {% block body %}{% endblock %}
+                </main>
+            </div>
+        </div>
+
+    </body>
+</html>

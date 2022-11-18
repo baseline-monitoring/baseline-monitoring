@@ -1,0 +1,103 @@
+baseline_monitoring.layout:
+    title: 'Baseline Monitoring'
+    admin_area.title: 'Admin Area'
+    profile.title: 'Profile'
+    login.title: 'Login'
+    logout.title: 'Logout'
+    profile_exit: 'Back to baselines'
+    flash_messages:
+        change_password:
+            password_wrong: 'Current password is wrong. Please check it for typos'
+            success: 'Password changed!'
+
+baseline_monitoring.navigation:
+    baselines: 'Baselines'
+    remote_server_configuration: 'Remote Server Configuration'
+    baseline_configuration: 'Baseline Configuration'
+    change_password: 'Change Password'
+
+baseline_monitoring.user_management:
+    login:
+        username: 'Username'
+        password: 'Password'
+        action: 'login'
+    register:
+        action: 'register'
+    change_password:
+        title: 'Change Password'
+        current_password: 'Current Password'
+        repeat_password: 'Repeat Password'
+        action: 'Save'
+baseline_monitoring.baseline:
+    index:
+        title: 'Baselines'
+        baselines:
+            no_baseline_configured: 'No baseline configured'
+            name: 'Name'
+            repository_url: 'Repository URL'
+            configuration_file_path: 'Configuration File Path'
+            baseline_file_path: 'Baseline file path'
+            branch: 'Branch'
+            created_at: 'Created At'
+            action: 'Action'
+            show: 'Show'
+    show:
+        title: 'Baseline Chart "%name%"'
+        latest_result:
+            errors: 'Errors'
+            unique: 'Unique'
+            phpstan_version: 'PHPStan Version'
+            psalm_version: 'Psalm Version'
+
+    admin:
+        baseline_configuration:
+            index:
+                title: 'Baseline Configuration'
+                add_hint: 'Add baseline configuration'
+                add: 'Add'
+                baselines:
+                    no_baseline_configured: 'No Baseline configured. Add one'
+                    name: 'Name'
+                    repository_url: 'Repository URL'
+                    configuration_file_path: 'Configuration File Path'
+                    baseline_file_path: 'Baseline file path'
+                    branch: 'Branch'
+                    created_at: 'Created At'
+                    action: 'Action'
+                    edit: 'Edit'
+                    delete: 'Delete'
+            edit:
+                label:
+                    remote_server: 'Remote Server'
+                    repository_url: 'Repository URL'
+                    name: 'Name'
+                    configuration_file_path: 'Path to configuration'
+                    baseline_file_path: 'Path to baseline'
+                    branch: 'Main Branch'
+                    goals: 'Baseline configuration goals'
+                    save: 'Save'
+        baseline_configuration_goals:
+            edit:
+                label:
+                    error_goal: 'Error Goal'
+                    benefit_title: 'Benefit Title'
+                    benefit_description: 'Benefit Description'
+        remote_server_configuration:
+            index:
+                title: 'Remote Server Configuration'
+                add_hint: 'Add remote server'
+                add: 'Add'
+                configurations:
+                    no_remote_server_configured: 'No remote server configured. Add one'
+                    name: 'Name'
+                    host: 'Host'
+                    created_at: 'Created At'
+                    action: 'Action'
+                    edit: 'Edit'
+                    delete: 'Delete'
+            edit:
+                label:
+                    name: 'Name'
+                    host: 'Host'
+                    private_key: 'Private Key'
+                    save: 'Save'

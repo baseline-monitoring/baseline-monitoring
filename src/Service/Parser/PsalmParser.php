@@ -15,7 +15,7 @@ use Symfony\Component\Filesystem\Filesystem;
 class PsalmParser implements ParserInterface
 {
     public function __construct(
-        private Filesystem $filesystem
+        private readonly Filesystem $filesystem
     ) {
     }
 
@@ -50,7 +50,7 @@ class PsalmParser implements ParserInterface
 
         $extension = (string) pathinfo($fileName, PATHINFO_EXTENSION);
 
-        return 'xml' === mb_strtolower($extension);
+        return mb_strtolower($extension) === 'xml';
     }
 
     /**
@@ -63,22 +63,32 @@ class PsalmParser implements ParserInterface
     private function getFileContent(string $fileName): array
     {
         if (!$this->filesystem->exists($fileName)) {
-            throw new FileNotFoundException('Given file "'.$fileName.'" does not exist');
+            throw new FileNotFoundException('Given file "' . $fileName . '" does not exist');
         }
 
-        $content = simplexml_load_file($fileName);
+        $fileContent = file_get_contents($fileName);
+        if (!$fileContent) {
+            throw new ParsingException('File "' . $fileName . '" could not get read');
+        }
+
+        $content = simplexml_load_string($fileContent);
 
         if (!$content) {
-            throw new ParsingException('File "'.$fileName.'" could not get parsed');
+            throw new ParsingException('File "' . $fileName . '" could not get parsed');
         }
 
         $output = (array) $content;
 
         $errors = $output['file'] ?? null;
         if (null === $errors) {
-            throw new BaselineFileContentException('File "'.$fileName.'" is not valid');
+            throw new BaselineFileContentException('File "' . $fileName . '" is not valid');
         }
 
         return $errors;
+    }
+
+    public function getVersion(string $fileName): ?string
+    {
+        return null;
     }
 }

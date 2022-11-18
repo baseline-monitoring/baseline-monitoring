@@ -30,7 +30,7 @@ class PHPStanParserTest extends TestCase
 
     public function testParse(): void
     {
-        $shortBaseFileName = __DIR__.'/../../_data/phpstan-api-baseline-short.neon';
+        $shortBaseFileName = __DIR__ . '/../../_data/phpstan-api-baseline-short.neon';
 
         $this->filesystem->exists($shortBaseFileName)
             ->shouldBeCalled()

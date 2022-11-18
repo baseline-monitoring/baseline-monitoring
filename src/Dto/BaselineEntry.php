@@ -7,9 +7,9 @@ namespace App\Dto;
 final class BaselineEntry
 {
     public function __construct(
-        private string $message,
-        private int $count,
-        private string $path
+        private readonly string $message,
+        private readonly int $count,
+        private readonly string $path
     ) {
     }
 
