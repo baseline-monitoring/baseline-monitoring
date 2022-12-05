@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block baseline_specific_navigation %}
+    <li class="nav-item">
+        <a class="nav-link {% if app.current_route in ['index', 'baseline_chart'] %}active{% endif %}" aria-current="page" href="{{ path('baseline_chart', { id: baselineConfiguration.id}) }}">
+            {{ 'baseline_monitoring.navigation.chart'|trans({'%baselineName%': baselineConfiguration.name}) }}
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if app.current_route in ['baseline_errors'] %}active{% endif %}" aria-current="page" href="{{ path('baseline_errors', { id: baselineConfiguration.id}) }}">
+            {{ 'baseline_monitoring.navigation.error_list'|trans({'%baselineName%': baselineConfiguration.name}) }}
+        </a>
+    </li>
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'baseline_monitoring.baseline.error_list.title'|trans({'%name%': baselineConfiguration.name}) }}</h1>
+
+    <div id="error-list" class="container-fluid" data-controller="error-list">
+        <input class="search" placeholder="Search" />
+        <table class="table table-hover table-responsive">
+            <thead>
+                <tr class="d-flex">
+                    <th class="col-6">Message</th>
+                    <th class="col-5">Path</th>
+                    <th class="col-1">Count</th>
+                </tr>
+            </thead>
+            <!-- IMPORTANT, class="list" have to be at tbody -->
+            <tbody class="list">
+            {% for error in errors %}
+                <tr class="d-flex">
+                    <td class="message col-6 text-break">{{ error.message }}</td>
+                    <td class="path col-5 text-break">{{ error.path }}</td>
+                    <td class="count col-1">{{ error.count }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

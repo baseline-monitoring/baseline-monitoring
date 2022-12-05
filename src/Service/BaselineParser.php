@@ -47,7 +47,7 @@ class BaselineParser
         return $this->entryAnalyzer->analyze($baselineEntryCollection);
     }
 
-    private function parseFile(string $fileName): BaselineEntryCollection
+    public function parseFile(string $fileName): BaselineEntryCollection
     {
         foreach ($this->baselineFileParser as $baselineFileParser) {
             if (!$baselineFileParser->supports($fileName)) {

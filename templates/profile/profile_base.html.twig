@@ -36,7 +36,7 @@
                             </h6>
                             <ul class="nav flex-column mb-2">
                                 <li class="nav-item">
-                                    <a class="nav-link {% if app.request.get('_route') in ['profile_index', 'profile_change_password_index'] %}active{% endif %}" href="{{ path('profile_change_password_index') }}">
+                                    <a class="nav-link {% if app.current_route in ['profile_index', 'profile_change_password_index'] %}active{% endif %}" href="{{ path('profile_change_password_index') }}">
                                         {{ 'baseline_monitoring.navigation.change_password'|trans }}
                                     </a>
                                 </li>

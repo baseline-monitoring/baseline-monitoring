@@ -1,5 +1,18 @@
 {% extends 'base.html.twig' %}
 
+{% block baseline_specific_navigation %}
+    <li class="nav-item">
+        <a class="nav-link {% if app.current_route in ['baseline_chart'] %}active{% endif %}" aria-current="page" href="{{ path('baseline_chart', { id: baselineConfiguration.id}) }}">
+            {{ 'baseline_monitoring.navigation.chart'|trans({'%baselineName%': baselineConfiguration.name}) }}
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if app.current_route in ['baseline_errors'] %}active{% endif %}" aria-current="page" href="{{ path('baseline_errors', { id: baselineConfiguration.id}) }}">
+            {{ 'baseline_monitoring.navigation.error_list'|trans({'%baselineName%': baselineConfiguration.name}) }}
+        </a>
+    </li>
+{% endblock %}
+
 {% block body %}
     <h1>{{ 'baseline_monitoring.baseline.show.title'|trans({'%name%': baselineConfiguration.name}) }}</h1>
 

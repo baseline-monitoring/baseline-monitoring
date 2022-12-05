@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Profile;
 
 use App\Entity\User;
@@ -39,7 +41,7 @@ class ChangePasswordController extends AbstractController
                 $this->addFlash('danger', $translator->trans('baseline_monitoring.layout.flash_messages.change_password.password_wrong'));
 
                 return $this->render('profile/change_password.html.twig', [
-                    'form' => $form->createView(),
+                    'form' => $form,
                 ]);
             }
 
@@ -48,7 +50,7 @@ class ChangePasswordController extends AbstractController
         }
 
         return $this->render('profile/change_password.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 }
