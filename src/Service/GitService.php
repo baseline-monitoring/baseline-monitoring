@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Dto\Git\CommitHash;
@@ -51,15 +53,20 @@ class GitService
     /**
      * @throws ProcessFailedException
      */
-    public function clone(BaselineConfiguration $baselineConfiguration): void
+    public function cloneIfNotExists(BaselineConfiguration $baselineConfiguration): void
     {
+        $projectCheckoutDirectoryFilepath = $this->getProjectCheckoutDirectoryFilepath($baselineConfiguration);
+        if ($this->filesystem->exists($projectCheckoutDirectoryFilepath)) {
+            return;
+        }
+
         $this->createSSHKeyFile($baselineConfiguration);
 
         $process = [
             'git',
             'clone',
             $baselineConfiguration->getRepositoryUrl(),
-            $this->getProjectCheckoutDirectoryFilepath($baselineConfiguration),
+            $projectCheckoutDirectoryFilepath,
         ];
         $process = new Process(
             command: $process,

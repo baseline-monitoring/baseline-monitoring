@@ -37,10 +37,13 @@
                     <div class="position-sticky pt-3">
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link {% if app.request.get('_route') in ['index', 'baseline_chart'] %}active{% endif %}" aria-current="page" href="{{ path('index') }}">
+                                <a class="nav-link {% if app.current_route in ['index'] %}active{% endif %}" aria-current="page" href="{{ path('index') }}">
                                     {{ 'baseline_monitoring.navigation.baselines'|trans }}
                                 </a>
                             </li>
+                            <div class="px-4">
+                                {% block baseline_specific_navigation %}{% endblock %}
+                            </div>
                         </ul>
                         {% if is_granted('ROLE_ADMIN') %}
                             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -48,12 +51,12 @@
                             </h6>
                             <ul class="nav flex-column mb-2">
                                 <li class="nav-item">
-                                    <a class="nav-link {% if app.request.get('_route') in ['admin_remote_server_configuration_index', 'admin_remote_server_configuration_add', 'admin_remote_server_configuration_edit'] %}active{% endif %}" href="{{ path('admin_remote_server_configuration_index') }}">
+                                    <a class="nav-link {% if app.current_route in ['admin_remote_server_configuration_index', 'admin_remote_server_configuration_add', 'admin_remote_server_configuration_edit'] %}active{% endif %}" href="{{ path('admin_remote_server_configuration_index') }}">
                                         {{ 'baseline_monitoring.navigation.remote_server_configuration'|trans }}
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link {% if app.request.get('_route') in ['admin_baseline_configuration_index', 'admin_baseline_configuration_add', 'admin_baseline_configuration_edit'] %}active{% endif %}" href="{{ path('admin_baseline_configuration_index') }}">
+                                    <a class="nav-link {% if app.current_route in ['admin_baseline_configuration_index', 'admin_baseline_configuration_add', 'admin_baseline_configuration_edit'] %}active{% endif %}" href="{{ path('admin_baseline_configuration_index') }}">
                                         {{ 'baseline_monitoring.navigation.baseline_configuration'|trans }}
                                     </a>
                                 </li>

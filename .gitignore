@@ -7,7 +7,7 @@
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
-!/var/project_checkout_directory
+/var/project_checkout_directory/*
 /vendor/
 ###< symfony/framework-bundle ###
 

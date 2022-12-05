@@ -15,6 +15,8 @@ baseline_monitoring.navigation:
     remote_server_configuration: 'Remote Server Configuration'
     baseline_configuration: 'Baseline Configuration'
     change_password: 'Change Password'
+    chart: 'Chart "%baselineName%"'
+    error_list: 'Error List "%baselineName%"'
 
 baseline_monitoring.user_management:
     login:
@@ -48,7 +50,8 @@ baseline_monitoring.baseline:
             unique: 'Unique'
             phpstan_version: 'PHPStan Version'
             psalm_version: 'Psalm Version'
-
+    error_list:
+        title: 'Error List'
     admin:
         baseline_configuration:
             index:

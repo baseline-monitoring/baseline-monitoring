@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Entity\BaselineErrors;
 use App\Entity\BaselineStatisticResult;
 use App\Repository\Read\BaselineConfigurationRepository;
 use App\Repository\Read\BaselineStatisticResultRepository;
+use App\Repository\Write\BaselineErrorsManager;
 use App\Repository\Write\BaselineStatisticResultManager;
 use App\Service\BaselineParser;
 use App\Service\GitService;
@@ -27,7 +29,8 @@ class RunCommand extends Command
         private readonly BaselineConfigurationRepository $baselineConfigurationRepository,
         private readonly GitService $gitService,
         private readonly BaselineStatisticResultRepository $baselineStatisticResultRepository,
-        private readonly BaselineStatisticResultManager $baselineStatisticResultManager
+        private readonly BaselineStatisticResultManager $baselineStatisticResultManager,
+        private readonly BaselineErrorsManager $baselineErrorsManager
     ) {
         parent::__construct();
     }
@@ -36,71 +39,96 @@ class RunCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $baselineConfiguration = $this->baselineConfigurationRepository->find(1);
+        $baselineConfigurations = $this->baselineConfigurationRepository->findAll();
 
-        if (null === $baselineConfiguration) {
-            $io->error('BaseConfiguration not found');
+        foreach ($baselineConfigurations as $baselineConfiguration) {
+            $io->title('Analyze Baseline "' . ($baselineConfiguration->getName() ?? '') . '"');
 
-            return Command::FAILURE;
-        }
+            $this->gitService->cloneIfNotExists($baselineConfiguration);
+            $this->gitService->pull($baselineConfiguration);
+            $commitHashes = $this->gitService->findBaselineCommits($baselineConfiguration);
 
-        $io->title('Analyze Baseline');
+            $countHashes = count($commitHashes->getCommitHashes());
+            $io->comment('Found ' . $countHashes . ' baseline changes in the last year');
 
-        $this->gitService->pull($baselineConfiguration);
-        $commitHashes = $this->gitService->findBaselineCommits($baselineConfiguration);
+            $counter = 1;
+            $rows = [];
+            $directory = $this->gitService->getProjectCheckoutDirectoryFilepath($baselineConfiguration);
+            $baselineFile = $directory . '/' . $baselineConfiguration->getPathToBaseline();
+            $io->comment('Analyze "' . $baselineFile . '"');
 
-        $countHashes = count($commitHashes->getCommitHashes());
-        $io->comment('Found ' . $countHashes . ' baseline changes in the last year');
+            foreach ($commitHashes->getCommitHashes() as $commitHash) {
+                $io->comment('Process hash ' . $counter . ' / ' . $countHashes . ' => ' . $commitHash->getHash());
 
-        $counter = 1;
-        $rows = [];
-        foreach ($commitHashes->getCommitHashes() as $commitHash) {
-            $io->comment('Process hash ' . $counter . ' / ' . $countHashes . ' => ' . $commitHash->getHash());
+                if ($this->baselineStatisticResultRepository->findOneBy(['commitHash' => $commitHash->getHash()]) !== null) {
+                    $io->comment('Hash ' . $commitHash->getHash() . ' already processed. Skip it');
 
-            if ($this->baselineStatisticResultRepository->findOneBy(['commitHash' => $commitHash->getHash()]) !== null) {
-                $io->comment('Hash ' . $commitHash->getHash() . ' already processed. Skip it');
+                    ++$counter;
+                    continue;
+                }
+
+                $this->gitService->checkoutCommit($baselineConfiguration, $commitHash->getHash());
+
+                $statisticResultCollection = $this->baselineParser->getStatisticsForFiles([$baselineFile]);
+
+                foreach ($statisticResultCollection->getStatisticResults() as $statisticResult) {
+                    $io->comment('Save statistic result for ' . $commitHash->getHash());
+                    $this->baselineStatisticResultManager->save(
+                        new BaselineStatisticResult(
+                            $baselineConfiguration,
+                            $statisticResult->getCommutativeErrors(),
+                            $statisticResult->getUniqueErrors(),
+                            $commitHash->getHash(),
+                            $commitHash->getCommitDate(),
+                        )
+                    );
+
+                    $rows[] = [
+                        $commitHash->getHash(),
+                        $commitHash->getCommitDate()->format('Y-m-d H:i:s'),
+                        basename($statisticResult->getFileName()),
+                        $statisticResult->getCommutativeErrors(),
+                        $statisticResult->getUniqueErrors(),
+                    ];
+                }
 
                 ++$counter;
+            }
+
+            // save errors for last hash
+            $baselineEntryCollection = $this->baselineParser->parseFile($baselineFile);
+
+            if ($baselineEntryCollection->getCount() === 0) {
+                $io->error('Baseline empty');
                 continue;
             }
 
-            $this->gitService->checkoutCommit($baselineConfiguration, $commitHash->getHash());
-
-            $directory = $this->gitService->getProjectCheckoutDirectoryFilepath($baselineConfiguration);
-
-            $baselineFile = $directory . '/' . $baselineConfiguration->getPathToBaseline();
-
-            $io->comment('Analyze "' . $baselineFile . '"');
-            $statisticResultCollection = $this->baselineParser->getStatisticsForFiles([$baselineFile]);
-
-            foreach ($statisticResultCollection->getStatisticResults() as $statisticResult) {
-                $io->comment('Save statistic result for ' . $commitHash->getHash());
-                $this->baselineStatisticResultManager->save(
-                    new BaselineStatisticResult(
+            $this->baselineErrorsManager->deleteErrorsForBaselineConfiguration($baselineConfiguration);
+            $errorCounter = 0;
+            foreach ($baselineEntryCollection->getBaselineEntries() as $baselineEntry) {
+                $this->baselineErrorsManager->addError(
+                    new BaselineErrors(
                         $baselineConfiguration,
-                        $statisticResult->getCommutativeErrors(),
-                        $statisticResult->getUniqueErrors(),
-                        $commitHash->getHash(),
-                        $commitHash->getCommitDate(),
+                        $baselineEntry->getMessage(),
+                        $baselineEntry->getCount(),
+                        $baselineEntry->getPath()
                     )
                 );
 
-                $rows[] = [
-                    $commitHash->getHash(),
-                    $commitHash->getCommitDate()->format('Y-m-d H:i:s'),
-                    basename($statisticResult->getFileName()),
-                    $statisticResult->getCommutativeErrors(),
-                    $statisticResult->getUniqueErrors(),
-                ];
+                if (($errorCounter % BaselineErrorsManager::BATCH_SIZE) === 0) {
+                    $errorCounter = 0;
+                    $this->baselineErrorsManager->flush();
+                }
+
+                ++$errorCounter;
             }
+            $this->baselineErrorsManager->flush();
 
-            ++$counter;
+            $io->table(
+                ['commit hash', 'commit date', 'file name', 'cummultative errors', 'unique errors'],
+                $rows
+            );
         }
-
-        $io->table(
-            ['commit hash', 'commit date', 'file name', 'cummultative errors', 'unique errors'],
-            $rows
-        );
 
         $io->success('Ok');
 
