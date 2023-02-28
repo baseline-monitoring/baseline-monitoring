@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "883367cad4683e4c06aeb9c069ae5e0c",
+    "content-hash": "c2c920bf12edcd3a7a976335f7eb7c41",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -10286,16 +10286,16 @@
         },
         {
             "name": "sebastianfeldmann/git",
-            "version": "3.8.5",
+            "version": "3.8.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianfeldmann/git.git",
-                "reference": "14de823cba82e30a3759e9eab1ebbd0d6f5d542c"
+                "reference": "d4ce674cf5104a162f8401033d88ea7f47134c5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianfeldmann/git/zipball/14de823cba82e30a3759e9eab1ebbd0d6f5d542c",
-                "reference": "14de823cba82e30a3759e9eab1ebbd0d6f5d542c",
+                "url": "https://api.github.com/repos/sebastianfeldmann/git/zipball/d4ce674cf5104a162f8401033d88ea7f47134c5d",
+                "reference": "d4ce674cf5104a162f8401033d88ea7f47134c5d",
                 "shasum": ""
             },
             "require": {
@@ -10335,7 +10335,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianfeldmann/git/issues",
-                "source": "https://github.com/sebastianfeldmann/git/tree/3.8.5"
+                "source": "https://github.com/sebastianfeldmann/git/tree/3.8.6"
             },
             "funding": [
                 {
@@ -10343,7 +10343,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-10-23T11:29:41+00:00"
+            "time": "2023-02-24T21:21:52+00:00"
         },
         {
             "name": "symfony/browser-kit",

@@ -1,4 +1,6 @@
 {
+    "name": "baseline-monitoring/baseline-monitoring",
+    "description": "Monitoring for your phpstan/psalm baseline",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
