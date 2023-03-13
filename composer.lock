@@ -7783,26 +7783,26 @@
     "packages-dev": [
         {
             "name": "captainhook/captainhook",
-            "version": "5.14.4",
+            "version": "5.15.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/captainhookphp/captainhook.git",
-                "reference": "8309f6e16097754469c485e604900c573bf2c5d8"
+                "reference": "728fe3847c57f2d9cd4c53a8c26bc5522b42a1d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/captainhookphp/captainhook/zipball/8309f6e16097754469c485e604900c573bf2c5d8",
-                "reference": "8309f6e16097754469c485e604900c573bf2c5d8",
+                "url": "https://api.github.com/repos/captainhookphp/captainhook/zipball/728fe3847c57f2d9cd4c53a8c26bc5522b42a1d0",
+                "reference": "728fe3847c57f2d9cd4c53a8c26bc5522b42a1d0",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-spl": "*",
                 "ext-xml": "*",
-                "php": ">=7.2",
+                "php": ">=7.4",
                 "sebastianfeldmann/camino": "^0.9.2",
                 "sebastianfeldmann/cli": "^3.3",
-                "sebastianfeldmann/git": "^3.8.5",
+                "sebastianfeldmann/git": "^3.8.6",
                 "symfony/console": "^2.7 || ^3.0 || ^4.0 || ^5.0 || ^6.0",
                 "symfony/filesystem": "^2.7 || ^3.0 || ^4.0 || ^5.0 || ^6.0",
                 "symfony/process": "^2.7 || ^3.0 || ^4.0 || ^5.0 || ^6.0"
@@ -7854,7 +7854,7 @@
             ],
             "support": {
                 "issues": "https://github.com/captainhookphp/captainhook/issues",
-                "source": "https://github.com/captainhookphp/captainhook/tree/5.14.4"
+                "source": "https://github.com/captainhookphp/captainhook/tree/5.15.2"
             },
             "funding": [
                 {
@@ -7862,7 +7862,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-02-05T15:14:48+00:00"
+            "time": "2023-03-03T11:11:58+00:00"
         },
         {
             "name": "composer/pcre",
