@@ -36,7 +36,7 @@ class PsalmParserTest extends TestCase
             ->shouldBeCalledOnce()
             ->willReturn(true);
 
-        $actualCollection = $this->parser->parse($shortBaseFileName);
+        $actualCollection = $this->parser->parse($shortBaseFileName, '');
 
         $expectedBaselineCollection = new BaselineEntryCollection($shortBaseFileName, [
             new BaselineEntry(
@@ -105,7 +105,7 @@ class PsalmParserTest extends TestCase
 
         $this->expectException(FileNotFoundException::class);
 
-        $this->parser->parse($fileName);
+        $this->parser->parse($fileName, '');
     }
 
     /**

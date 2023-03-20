@@ -1,0 +1,6 @@
+includes:
+    - phpstan-api-baseline.neon
+parameters:
+    level: 9
+    paths:
+        - ../module/

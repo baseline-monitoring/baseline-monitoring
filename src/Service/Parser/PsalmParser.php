@@ -19,11 +19,12 @@ class PsalmParser implements ParserInterface
     ) {
     }
 
-    public function parse(string $fileName): BaselineEntryCollection
+    public function parse(string $baselineFile, string $configurationFile): BaselineEntryCollection
     {
-        $errors = $this->getFileContent($fileName);
+        $errors = $this->getFileContent($baselineFile);
 
-        $collection = new BaselineEntryCollection($fileName);
+        $collection = new BaselineEntryCollection($baselineFile);
+        // TODO implement to get the version later
 
         foreach ($errors as $error) {
             $filePath = (string) ($error->attributes()['src'] ?? '');
@@ -85,10 +86,5 @@ class PsalmParser implements ParserInterface
         }
 
         return $errors;
-    }
-
-    public function getVersion(string $fileName): ?string
-    {
-        return null;
     }
 }

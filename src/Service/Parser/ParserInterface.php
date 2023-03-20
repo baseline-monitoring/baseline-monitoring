@@ -8,9 +8,7 @@ use App\Dto\BaselineEntryCollection;
 
 interface ParserInterface
 {
-    public function parse(string $fileName): BaselineEntryCollection;
-
-    public function getVersion(string $fileName): ?string;
+    public function parse(string $baselineFile, string $configurationFile): BaselineEntryCollection;
 
     public function supports(string $fileName): bool;
 }

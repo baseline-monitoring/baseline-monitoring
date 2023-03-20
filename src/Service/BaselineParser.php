@@ -21,42 +21,32 @@ class BaselineParser
     ) {
     }
 
-    public function getParsedErrors(string $fileName): BaselineEntryCollection
-    {
-        return $this->parseFile($fileName);
-    }
-
-    /**
-     * @param string[] $baselineFiles
-     */
-    public function getStatisticsForFiles(array $baselineFiles): BaselineStatisticResultCollection
+    public function getStatisticForFile(string $baselineFile, string $configurationFile): BaselineStatisticResultCollection
     {
         $collection = new BaselineStatisticResultCollection();
 
-        foreach ($baselineFiles as $baselineFile) {
-            $collection->addStatisticResult($this->getStatisticResult($baselineFile));
-        }
+        $collection->addStatisticResult($this->getStatisticResult($baselineFile, $configurationFile));
 
         return $collection;
     }
 
-    private function getStatisticResult(string $fileName): BaselineStatisticResult
+    private function getStatisticResult(string $baselineFile, string $configurationFile): BaselineStatisticResult
     {
-        $baselineEntryCollection = $this->parseFile($fileName);
+        $baselineEntryCollection = $this->parseFile($baselineFile, $configurationFile);
 
         return $this->entryAnalyzer->analyze($baselineEntryCollection);
     }
 
-    public function parseFile(string $fileName): BaselineEntryCollection
+    public function parseFile(string $baselineFile, string $configurationFile): BaselineEntryCollection
     {
         foreach ($this->baselineFileParser as $baselineFileParser) {
-            if (!$baselineFileParser->supports($fileName)) {
+            if (!$baselineFileParser->supports($baselineFile)) {
                 continue;
             }
 
-            return $baselineFileParser->parse($fileName);
+            return $baselineFileParser->parse($baselineFile, $configurationFile);
         }
 
-        return new BaselineEntryCollection($fileName);
+        return new BaselineEntryCollection($baselineFile);
     }
 }
