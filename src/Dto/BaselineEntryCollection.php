@@ -11,6 +11,8 @@ final class BaselineEntryCollection
      */
     private array $baselineEntries = [];
 
+    private string|null $version = null;
+
     /**
      * @param BaselineEntry[] $baselineEntries
      */
@@ -75,5 +77,17 @@ final class BaselineEntryCollection
     public function getFirstEntries(int $numberOfEntries): BaselineEntryCollection
     {
         return new BaselineEntryCollection($this->fileName, array_slice($this->baselineEntries, 0, $numberOfEntries));
+    }
+
+    public function getVersion(): ?string
+    {
+        return $this->version;
+    }
+
+    public function setVersion(?string $version): BaselineEntryCollection
+    {
+        $this->version = $version;
+
+        return $this;
     }
 }

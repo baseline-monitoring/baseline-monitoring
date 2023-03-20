@@ -14,7 +14,8 @@ class EntryAnalyzer
         return new BaselineStatisticResult(
             $baselineEntryCollection->getFileName(),
             $baselineEntryCollection->getCount(),
-            $baselineEntryCollection->getCommutativeCount()
+            $baselineEntryCollection->getCommutativeCount(),
+            $baselineEntryCollection->getVersion()
         );
     }
 }

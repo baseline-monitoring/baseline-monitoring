@@ -31,12 +31,17 @@ class PHPStanParserTest extends TestCase
     public function testParse(): void
     {
         $shortBaseFileName = __DIR__ . '/../../_data/phpstan-api-baseline-short.neon';
+        $configurationFile = __DIR__ . '/../../_data/phpstan-api.neon';
 
         $this->filesystem->exists($shortBaseFileName)
             ->shouldBeCalled()
             ->willReturn(true);
 
-        $actualCollection = $this->parser->parse($shortBaseFileName);
+        $this->filesystem->exists($configurationFile)
+            ->shouldBeCalledOnce()
+            ->wilLReturn(true);
+
+        $actualCollection = $this->parser->parse($shortBaseFileName, $configurationFile);
 
         $expectedBaselineEntryCollection = new BaselineEntryCollection($shortBaseFileName, [
             new BaselineEntry(
@@ -55,6 +60,7 @@ class PHPStanParserTest extends TestCase
                 '../module/Api/src/Cache/OfferBlacklistCache.php'
             ),
         ]);
+        $expectedBaselineEntryCollection->setVersion('9');
 
         $this->assertEquals($expectedBaselineEntryCollection, $actualCollection);
     }
@@ -62,6 +68,7 @@ class PHPStanParserTest extends TestCase
     public function testParseWithNonExistingFile(): void
     {
         $fileName = '/foo/bar/baz.neon';
+        $configurationFile = '/foo/bar/baz.neon';
 
         $this->filesystem->exists($fileName)
             ->shouldBeCalledOnce()
@@ -69,7 +76,7 @@ class PHPStanParserTest extends TestCase
 
         $this->expectException(FileNotFoundException::class);
 
-        $this->parser->parse($fileName);
+        $this->parser->parse($fileName, $configurationFile);
     }
 
     /**

@@ -55,6 +55,7 @@ class RunCommand extends Command
             $rows = [];
             $directory = $this->gitService->getProjectCheckoutDirectoryFilepath($baselineConfiguration);
             $baselineFile = $directory . '/' . $baselineConfiguration->getPathToBaseline();
+            $configurationFile = $directory . '/' . $baselineConfiguration->getPathToConfiguration();
             $io->comment('Analyze "' . $baselineFile . '"');
 
             foreach ($commitHashes->getCommitHashes() as $commitHash) {
@@ -69,7 +70,7 @@ class RunCommand extends Command
 
                 $this->gitService->checkoutCommit($baselineConfiguration, $commitHash->getHash());
 
-                $statisticResultCollection = $this->baselineParser->getStatisticsForFiles([$baselineFile]);
+                $statisticResultCollection = $this->baselineParser->getStatisticForFile($baselineFile, $configurationFile);
 
                 foreach ($statisticResultCollection->getStatisticResults() as $statisticResult) {
                     $io->comment('Save statistic result for ' . $commitHash->getHash());
@@ -80,6 +81,7 @@ class RunCommand extends Command
                             $statisticResult->getUniqueErrors(),
                             $commitHash->getHash(),
                             $commitHash->getCommitDate(),
+                            $statisticResult->getVersion()
                         )
                     );
 
@@ -96,7 +98,7 @@ class RunCommand extends Command
             }
 
             // save errors for last hash
-            $baselineEntryCollection = $this->baselineParser->parseFile($baselineFile);
+            $baselineEntryCollection = $this->baselineParser->parseFile($baselineFile, $configurationFile);
 
             if ($baselineEntryCollection->getCount() === 0) {
                 $io->error('Baseline empty');

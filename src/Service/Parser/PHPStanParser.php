@@ -25,7 +25,7 @@ class PHPStanParser implements ParserInterface
      *
      * @SuppressWarnings(PHPMD.StaticAccess)
      */
-    public function getVersion(string $fileName): ?string
+    private function getVersion(string $fileName): ?string
     {
         $parsedFileContent = $this->getNeonFileContent($fileName);
 
@@ -38,14 +38,15 @@ class PHPStanParser implements ParserInterface
         return $level;
     }
 
-    public function parse(string $fileName): BaselineEntryCollection
+    public function parse(string $baselineFile, string $configurationFile): BaselineEntryCollection
     {
-        $baselineEntryCollection = new BaselineEntryCollection($fileName);
-        $parsedFileContent = $this->getNeonFileContent($fileName);
+        $baselineEntryCollection = new BaselineEntryCollection($baselineFile);
+        $parsedFileContent = $this->getNeonFileContent($baselineFile);
+        $baselineEntryCollection->setVersion($this->getVersion($configurationFile));
 
         $ignoreErrors = $parsedFileContent['parameters']['ignoreErrors'] ?? null;
         if (!is_array($ignoreErrors)) {
-            throw new BaselineFileContentException('Expected array elements "parameters", "ignoreErrors" not found in file "' . $fileName . '"');
+            throw new BaselineFileContentException('Expected array elements "parameters", "ignoreErrors" not found in file "' . $baselineFile . '"');
         }
 
         foreach ($ignoreErrors as $ignoreError) {
