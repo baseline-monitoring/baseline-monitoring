@@ -14,7 +14,7 @@ final class Version20221205195234 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Adds table for persisting baseline errors';
     }
 
     public function up(Schema $schema): void

@@ -1,0 +1,10 @@
+server {
+    server_name _;
+    listen 80 default_server;
+
+    access_log /home/baselinemonitoringdev/catchall.access.log;
+    error_log /home/baselinemonitoringdev/catchall.error.log notice;
+
+    return 200 "No Vhost configured for host '$host'";
+    add_header Content-Type text/plain;
+}
