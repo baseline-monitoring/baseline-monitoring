@@ -1,0 +1,20 @@
+#######################################################################################################################
+# This is the application crontab file
+#
+# If you want to add cronjobs, please use the following format:
+#
+#       Interval: <Human readable format of the interval (e.g. copied description from https://crontab.guru>
+#       Description: <What does the command do?>
+#       * * * * * $PHPBIN $PROJECTDIR/bin/console some:random:command 2>&1 /dev/null | tee -a $LOGFILE
+#
+# For the cron expression you can use https://crontab.guru/
+#######################################################################################################################
+
+# Variables
+PHPBIN=/usr/bin/php
+PROJECTDIR=/home/baselinemonitoringdev/current
+LOGFILE=/home/baselinemonitoringdev/current/var/log/cron.log
+
+Interval: Every hour at minute 43
+Description: Generates all baseline data by checking out the specific repository commits
+43 * * * * $PHPBIN $PROJECTDIR/bin/console app:run 2>&1 > /dev/null | tee -a $LOGFILE
