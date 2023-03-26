@@ -48,6 +48,11 @@ RUN apt-get update -q && apt-get install -qqy --no-install-recommends --fix-miss
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get install -y nodejs
 
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update
+RUN apt-get install -y yarn
+
 RUN sed -i -e 's/# \(de_DE\.UTF-8 .*\)/\1/' /etc/locale.gen && locale-gen
 
 # copy the Composer PHAR from the Composer image into the PHP image
@@ -74,12 +79,6 @@ RUN usermod -u 3502 baselinemonitoringdev
 
 RUN echo "PS1='\[\033[1;33m\]\w\[\033[1;31m\] \u@\h > \[\033[0m\]'" >> /root/.bashrc && \
     echo "alias baselinemonitoringdev='cd /home/baselinemonitoringdev/current;su baselinemonitoringdev'" >> /root/.bashrc
-
-#COPY ./../crontab/crontab /etc/cron.d/application_cron_file
-#RUN chmod 0644 /etc/cron.d/application_cron_file
-#RUN crontab /etc/cron.d/application_cron_file
-#RUN touch /var/log/cron.log
-#CMD ["cron", "-f"]
 
 CMD sudo nginx && \
   sudo php-fpm8.1 && \

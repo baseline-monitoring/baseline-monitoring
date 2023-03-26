@@ -76,7 +76,8 @@ docker-compose exec app /bin/bash
 Inside your container install the dependencies
 ```bash
 composer install
-npm install
+yarn install
+yarn run build
 ```
 
 To make sure the application will work, we have to add the database and run migrations:
