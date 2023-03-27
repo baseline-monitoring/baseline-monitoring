@@ -1,6 +1,8 @@
 
 # Baseline Monitoring
 
+![Baseline Monitoring Logo](docs/img/baseline-monitoring-logo.png?raw=true "Baseline Monitoring Logo")
+
 Imagine you have a grown PHP application and you are using PHPStan or Psalm.
 A lot of projects are using baseline files to ignore errors. 
 Especially when you change levels or update the tool you are faced with lots of
