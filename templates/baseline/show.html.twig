@@ -31,12 +31,20 @@
 
                     {% if latestResult.toolVersion %}
                         <dt class="col-sm-5 mt-5">
-                            {{ 'baseline_monitoring.baseline.show.latest_result.phpstan_version'|trans }} /
                             {{ 'baseline_monitoring.baseline.show.latest_result.phpstan_version'|trans }}
                         </dt>
                         <dd class="col-sm-7">
+                            {% if latestResult.toolVersion == "9" %}
+                                {% set medalClass = "quiz-medal__circle--gold" %}
+                            {% elseif latestResult.toolVersion == "8" %}
+                                {% set medalClass = "quiz-medal__circle--silver" %}
+                            {% elseif latestResult.toolVersion == "7" %}
+                                {% set medalClass = "quiz-medal__circle--bronze" %}
+                            {% else %}
+                                {% set medalClass = "quiz-medal__circle--neutral" %}
+                            {% endif %}
                             <div class="quiz-medal">
-                                <div class="quiz-medal__circle quiz-medal__circle--gold">
+                                <div class="quiz-medal__circle {{ medalClass }}">
                                     <span>{{ latestResult.toolVersion }}</span>
                                 </div>
                                 <div class="quiz-medal__ribbon quiz-medal__ribbon--left"></div>
@@ -45,32 +53,34 @@
                         </dd>
                     {% endif %}
                 </dl>
-                <hr>
             {% endif %}
 
-            <h2>Goals</h2>
+            {% if baselineConfiguration.baselineConfigurationGoals is not empty %}
+                <hr>
+                <h2>{{ 'baseline_monitoring.baseline.show.goals.title'|trans }}</h2>
 
-            {% for goal in baselineConfiguration.baselineConfigurationGoals %}
-                {% set errorsLeft = (latestResult.commutativeErrors - goal.errorGoal) > 0 ? (latestResult.commutativeErrors - goal.errorGoal) : 0 %}
+                {% for goal in baselineConfiguration.baselineConfigurationGoals %}
+                    {% set errorsLeft = (latestResult.commutativeErrors - goal.errorGoal) > 0 ? (latestResult.commutativeErrors - goal.errorGoal) : 0 %}
 
-                <div class="card mb-3{% if errorsLeft == 0 %} border-success{% endif %}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ goal.errorGoal }} Errors</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">{{ goal.benefitTitle }}</h6>
-                        <p class="card-text">{{ goal.benefitDescription }}</p>
+                    <div class="card mb-3{% if errorsLeft == 0 %} border-success{% endif %}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ goal.errorGoal }} Errors</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ goal.benefitTitle }}</h6>
+                            <p class="card-text">{{ goal.benefitDescription }}</p>
 
-                        <div class="progress mt-3">
-                            <div class="progress-bar" role="progressbar" aria-label="Example with label" style="width: {{ (goal.errorGoal*100)/latestResult.commutativeErrors }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                {{ errorsLeft }} errors left</div>
+                            <div class="progress mt-3">
+                                <div class="progress-bar" role="progressbar" aria-label="{{ goal.errorGoal }}" style="width: {{ (goal.errorGoal*100)/latestResult.commutativeErrors }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                    {{ errorsLeft }} {{ 'baseline_monitoring.baseline.show.goals.errors_left'|trans }}</div>
+                            </div>
                         </div>
+                        {% if errorsLeft == 0 %}
+                            <div class="card-footer text-center">
+                                🎉🎉🎉🎉🎉🎉 <span class="badge text-bg-success">{{ 'baseline_monitoring.baseline.show.goals.done'|trans }}</span> 🎉🎉🎉🎉🎉🎉
+                            </div>
+                        {% endif %}
                     </div>
-                    {% if errorsLeft == 0 %}
-                        <div class="card-footer text-center">
-                            🎉🎉🎉🎉🎉🎉 <span class="badge text-bg-success">Done</span> 🎉🎉🎉🎉🎉🎉
-                        </div>
-                    {% endif %}
-                </div>
-            {% endfor %}
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}

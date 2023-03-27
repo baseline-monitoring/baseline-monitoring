@@ -50,9 +50,19 @@ baseline_monitoring.baseline:
             unique: 'Unique'
             phpstan_version: 'PHPStan Version'
             psalm_version: 'Psalm Version'
+        goals:
+            title: 'Goals'
+            done: 'Done'
+            errors_left: 'errors left'
     error_list:
         title: 'Error List'
+        columns:
+            message: 'Message'
+            path: 'Path'
+            count: 'Count'
     admin:
+        index:
+            title: 'Admin Index'
         baseline_configuration:
             index:
                 title: 'Baseline Configuration'
