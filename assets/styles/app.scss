@@ -145,6 +145,24 @@ $neutral-medal: #d1d7da;
         text-shadow: 0 0 4px darken($gold-medal, 20%);
         background: linear-gradient(to bottom right, $gold-medal 50%, darken($gold-medal, 5%) 50%);
     }
+    &.quiz-medal__circle--silver {
+        box-shadow: inset 0 0 0 darken($silver-medal, 15%), 2px 2px 0 rgba(0, 0, 0, 0.08);
+        border-color: lighten(adjust-hue($silver-medal, 10), 10%);
+        text-shadow: 0 0 4px darken($silver-medal, 20%);
+        background: linear-gradient(to bottom right, $silver-medal 50%, darken($silver-medal, 5%) 50%);
+    }
+    &.quiz-medal__circle--bronze {
+        box-shadow: inset 0 0 0 darken($bronze-medal, 15%), 2px 2px 0 rgba(0, 0, 0, 0.08);
+        border-color: lighten(adjust-hue($bronze-medal, 10), 10%);
+        text-shadow: 0 0 4px darken($bronze-medal, 20%);
+        background: linear-gradient(to bottom right, $bronze-medal 50%, darken($bronze-medal, 5%) 50%);
+    }
+    &.quiz-medal__circle--neutral {
+        box-shadow: inset 0 0 0 darken($neutral-medal, 15%), 2px 2px 0 rgba(0, 0, 0, 0.08);
+        border-color: lighten(adjust-hue($neutral-medal, 10), 10%);
+        text-shadow: 0 0 4px darken($neutral-medal, 20%);
+        background: linear-gradient(to bottom right, $neutral-medal 50%, darken($neutral-medal, 5%) 50%);
+    }
 }
 
 .quiz-medal__ribbon {
