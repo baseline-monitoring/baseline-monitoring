@@ -35,7 +35,7 @@ class BaselineController extends AbstractController
     ): Response {
         return $this->render('baseline/error_list.html.twig', [
             'baselineConfiguration' => $baselineConfiguration,
-            'errors' => $baselineErrorsRepository->findBy([], ['count' => 'DESC']),
+            'errors' => $baselineErrorsRepository->findBy(['baselineConfiguration' => $baselineConfiguration], ['count' => 'DESC']),
         ]);
     }
 }
